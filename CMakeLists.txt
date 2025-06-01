@@ -103,3 +103,30 @@ add_test(NAME test_merge COMMAND test_merge)
 add_test(NAME test_select COMMAND test_select)
 add_test(NAME test_bubble COMMAND test_bubble)
 add_test(NAME test_quick COMMAND test_quick)
+
+#
+# 1) Zdefiniuj wykonanie pliku źródłowego test_sort2.cpp
+#
+add_executable(test_sort2
+    src/tests/test_sort2.cpp
+)
+
+#
+# 2) Podłącz bibliotekę SortLib (zakładam, że masz już wcześniej
+#    zdefiniowany target SortLib, albo używasz takiego targetu w linkowaniu)
+#    oraz GoogleTest
+#
+target_link_libraries(test_sort2
+    PRIVATE
+        SortLib             # Twój target/biblioteka, w której są Sorter.h/SortData.h
+        GTest::GTest        # linkowanie z GoogleTest
+        GTest::Main         # jeżeli chcesz użyć gotowego main() z GTest
+        pthread             # pod Linuksem może być konieczne (std::thread, std::async)
+)
+
+#
+# 3) Zarejestruj test w CTest
+#
+add_test(NAME test_sort2 
+         COMMAND test_sort2
+)
